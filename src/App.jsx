@@ -4,8 +4,9 @@ import './App.scss';
 import usersFromServer from './api/users';
 import categoriesFromServer from './api/categories';
 import productsFromServer from './api/products';
-import { Productlist } from './components/Productlist';
-import { UserFilterList } from './components/UserFilterList/UserFilterList';
+import { Productlist } from './components/Productslist';
+import { UserFiltersList } from './components/UserFiltersList';
+import { CategoriesFiltersList } from './components/CategoriesFiltersList';
 
 const products = productsFromServer.map((product) => {
   const category = categoriesFromServer
@@ -22,7 +23,7 @@ const products = productsFromServer.map((product) => {
 });
 
 // eslint-disable-next-line no-shadow
-function filterProducts(products, { userFilter, query }) {
+function filterProducts(products, { userFilter, query, filterCategories }) {
   let productCopy = [...products];
 
   if (userFilter !== 'all') {
@@ -41,14 +42,24 @@ function filterProducts(products, { userFilter, query }) {
       });
   }
 
+  if (filterCategories.length > 0) {
+    productCopy = productCopy
+      .filter(product => filterCategories
+        .some(categoryElement => product.category.title === categoryElement));
+  }
+
   return productCopy;
 }
 
 export const App = () => {
   const [userFilter, setUserFilter] = useState('all');
   const [query, setQuery] = useState('');
+  const [filterCategories, setFlterCategories] = useState([]);
 
-  const visibleProducts = filterProducts(products, { userFilter, query });
+  const visibleProducts = filterProducts(
+    products,
+    { userFilter, query, filterCategories },
+  );
 
   const clearQueryButton = (
     <span className="icon is-right">
@@ -71,6 +82,7 @@ export const App = () => {
   function handeFullReset() {
     setUserFilter('all');
     setQuery('');
+    setFlterCategories([]);
   }
 
   return (
@@ -82,7 +94,7 @@ export const App = () => {
           <nav className="panel">
             <p className="panel-heading">Filters</p>
 
-            <UserFilterList
+            <UserFiltersList
               users={usersFromServer}
               userFilter={userFilter}
               changeUserFilter={newUser => setUserFilter(newUser)}
@@ -107,46 +119,11 @@ export const App = () => {
               </p>
             </div>
 
-            <div className="panel-block is-flex-wrap-wrap">
-              <a
-                href="#/"
-                data-cy="AllCategories"
-                className="button is-success mr-6 is-outlined"
-              >
-                All
-              </a>
-
-              <a
-                data-cy="Category"
-                className="button mr-2 my-1 is-info"
-                href="#/"
-              >
-                Category 1
-              </a>
-
-              <a
-                data-cy="Category"
-                className="button mr-2 my-1"
-                href="#/"
-              >
-                Category 2
-              </a>
-
-              <a
-                data-cy="Category"
-                className="button mr-2 my-1 is-info"
-                href="#/"
-              >
-                Category 3
-              </a>
-              <a
-                data-cy="Category"
-                className="button mr-2 my-1"
-                href="#/"
-              >
-                Category 4
-              </a>
-            </div>
+            <CategoriesFiltersList
+              categories={categoriesFromServer}
+              filterCategories={filterCategories}
+              setCategories={newCategories => setFlterCategories(newCategories)}
+            />
 
             <div className="panel-block">
               <a

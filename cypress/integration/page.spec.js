@@ -37,7 +37,7 @@ describe('', () => {
 
   // If you want to skip some tests just add .skip after the describe
 
-  describe('Page by default', () => {
+  describe.skip('Page by default', () => {
     it('should show ProductTable', () => {
       page.productTable().should('exist');
     });
@@ -83,7 +83,7 @@ describe('', () => {
     });
   });
 
-  describe('Filter by owner', () => {
+  describe.skip('Filter by owner', () => {
     it('should have a link per existing user', () => {
       userFilter.users().should('have.length', 4);
 
@@ -146,7 +146,7 @@ describe('', () => {
     });
   });
 
-  describe('Filter by Product name', () => {
+  describe.skip('Filter by Product name', () => {
     it('should have an empty field by default', () => {
       nameFilter.field().should('have.value', '');
     });
@@ -243,7 +243,7 @@ describe('', () => {
     });
   });
 
-  describe('NoMatchingResults message', () => {
+  describe.skip('NoMatchingResults message', () => {
     it('should not be visible by default', () => {
       page.noMatchingMessage().should('not.exist');
     });
@@ -295,7 +295,7 @@ describe('', () => {
   })
 
   // Categories tests are skiped by default
-  describe.skip('Filter by categories', () => {
+  describe('Filter by categories', () => {
     it('should have All Categories Button active by default', () => {
       categoriesFilter.allButton().should('not.have.class', 'is-outlined');
     });

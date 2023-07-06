@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { UserFilterItem } from '../UserFilterItem';
 
-export const UserFilterList = ({ users, userFilter, changeUserFilter }) => (
+export const UserFiltersList = ({ users, userFilter, changeUserFilter }) => (
   <p className="panel-tabs has-text-weight-bold">
     <a
       data-cy="FilterAllUsers"
