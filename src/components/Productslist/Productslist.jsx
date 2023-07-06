@@ -1,66 +1,31 @@
+import { ColumnsItem } from '../ColumnItem';
 import { Product } from '../Product';
 
-export const Productlist = ({ products }) => (
-  <table
-    data-cy="ProductTable"
-    className="table is-striped is-narrow is-fullwidth"
-  >
-    <thead>
-      <tr>
-        <th>
-          <span className="is-flex is-flex-wrap-nowrap">
-            ID
+export const Productlist = ({ products, columnSort }) => {
+  const columns = ['ID', 'Product', 'Category', 'User'];
 
-            <a href="#/">
-              <span className="icon">
-                <i data-cy="SortIcon" className="fas fa-sort" />
-              </span>
-            </a>
-          </span>
-        </th>
+  return (
+    <table
+      data-cy="ProductTable"
+      className="table is-striped is-narrow is-fullwidth"
+    >
+      <thead>
+        <tr>
+          {columns.map(column => (
+            <ColumnsItem
+              column={column}
+              key={column}
+              columnSort={newSort => columnSort(newSort)}
+            />
+          ))}
+        </tr>
+      </thead>
 
-        <th>
-          <span className="is-flex is-flex-wrap-nowrap">
-            Product
-
-            <a href="#/">
-              <span className="icon">
-                <i data-cy="SortIcon" className="fas fa-sort-down" />
-              </span>
-            </a>
-          </span>
-        </th>
-
-        <th>
-          <span className="is-flex is-flex-wrap-nowrap">
-            Category
-
-            <a href="#/">
-              <span className="icon">
-                <i data-cy="SortIcon" className="fas fa-sort-up" />
-              </span>
-            </a>
-          </span>
-        </th>
-
-        <th>
-          <span className="is-flex is-flex-wrap-nowrap">
-            User
-
-            <a href="#/">
-              <span className="icon">
-                <i data-cy="SortIcon" className="fas fa-sort" />
-              </span>
-            </a>
-          </span>
-        </th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {products.map(product => (
-        <Product product={product} key={product.id} />
-      ))}
-    </tbody>
-  </table>
-);
+      <tbody>
+        {products.map(product => (
+          <Product product={product} key={product.id} />
+        ))}
+      </tbody>
+    </table>
+  );
+};
